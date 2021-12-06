@@ -1,38 +1,64 @@
 'use strict';
 
-import {HELP_OUTPUT} from "../literals/texts";
-
-const { Command } = require('commander');
+const {HELP_OUTPUT, COUNT_TOO_MUCH} = require(`../literals/texts`);
+const {ARGUMENTS} = require(`../literals/config`);
+const {Command} = require(`commander`);
+const {getIsInteger} = require(`../helpers/getIsInteger`);
 const fs = require(`fs`);
-
 const packageJsonFile = require(`../../package.json`);
 
-const ARGUMENTS = {
-  VERSION: 'version',
-  HELP: 'help',
-}
+const generateMock = (numberOfLines) => {
+  console.log(`generate count: `, numberOfLines);
+};
 
-const program = new Command();
+const app = () => {
+  const program = new Command();
 
-program
-  .option(`-v, --${ARGUMENTS.VERSION}`, 'output the program version')
-  .option(`-h, --${ARGUMENTS.HELP}`, 'output the program version')
-  .option('-s, --small', 'small pizza size')
-  .option('-p, --pizza-type <type>', 'flavour of pizza');
-program.parse(process.argv);
+  program
+    .option(`-v, --${ARGUMENTS.VERSION}`)
+    .option(`-h, --${ARGUMENTS.HELP}`)
+    .option(`-g, --${ARGUMENTS.GENERATE} [count]`);
 
-const options = program.opts();
+  program.exitOverride(); // throw instead of exit
+  program
+    .configureOutput({
+      writeOut: () => process.stdout.write(``),
+      writeErr: () => process.stdout.write(``),
+    });
 
-if (options[ARGUMENTS.VERSION]) {
-  const version = packageJsonFile.version;
-  console.log(version);
-}
+  try {
+    program.parse(process.argv);
+  } catch (err) {
+    if (err.code === `commander.unknownOption`) {
+      generateMock(1);
+    }
+  }
 
-if (options[ARGUMENTS.HELP]) {
-  console.log(HELP_OUTPUT);
-}
+  const options = program.opts();
 
-// if (options.debug) console.log(options);
-// console.log('pizza details:');
-// if (options.small) console.log('- small pizza size');
-// if (options.pizzaType) console.log(`- ${options.pizzaType}`);
+  if (options[ARGUMENTS.VERSION]) {
+    const version = packageJsonFile.version;
+    console.log(version);
+  }
+
+  if (options[ARGUMENTS.HELP]) {
+    console.log(HELP_OUTPUT);
+  }
+
+  if (options[ARGUMENTS.GENERATE]) {
+    const numberOfLines = options.generate;
+
+    if (getIsInteger(numberOfLines)) {
+      if (Number(numberOfLines) > 1000) {
+        console.log(COUNT_TOO_MUCH);
+
+        return;
+      }
+
+      generateMock(Number(numberOfLines));
+    }
+  }
+
+};
+
+app();
