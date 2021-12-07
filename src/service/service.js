@@ -1,10 +1,9 @@
 'use strict';
 
-const {HELP_OUTPUT, COUNT_TOO_MUCH} = require(`../literals/texts`);
-const {ARGUMENTS} = require(`../literals/config`);
+const {HELP_OUTPUT, COUNT_TOO_MUCH} = require(`./src/literals/texts`);
+const {ARGUMENTS} = require(`src/service/config`);
 const {Command} = require(`commander`);
-const {getIsInteger} = require(`../helpers/getIsInteger`);
-const fs = require(`fs`);
+const {getIsInteger} = require(`src/helpers`);
 const packageJsonFile = require(`../../package.json`);
 
 const generateMock = (numberOfLines) => {
@@ -30,7 +29,12 @@ const app = () => {
     program.parse(process.argv);
   } catch (err) {
     if (err.code === `commander.unknownOption`) {
-      generateMock(1);
+      if (program.opts().generate) {
+        generateMock(1);
+      } else {
+        console.log(`Неизвестная команда.`);
+        program.outputHelp();
+      }
     }
   }
 

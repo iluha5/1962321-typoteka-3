@@ -1,0 +1,21 @@
+'use strict';
+
+const ARGUMENTS = {
+  VERSION: `version`,
+  HELP: `help`,
+  GENERATE: `generate`,
+};
+const DEFAULT_COUNT = 1;
+const MAX_COUNT = 1000;
+const NUMBER_OF_SENTENCES_IN_TITLE = 5;
+const MIN_SENTENCES_IN_FULL_TEXT = 1;
+const MIN_CATEGORIES_NUMBER = 1;
+
+module.exports = {
+  ARGUMENTS,
+  DEFAULT_COUNT,
+  MAX_COUNT,
+  NUMBER_OF_SENTENCES_IN_TITLE,
+  MIN_SENTENCES_IN_FULL_TEXT,
+  MIN_CATEGORIES_NUMBER,
+};
