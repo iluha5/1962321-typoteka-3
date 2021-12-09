@@ -1,14 +1,10 @@
 'use strict';
 
-const {HELP_OUTPUT, COUNT_TOO_MUCH} = require(`./src/literals/texts`);
-const {ARGUMENTS} = require(`src/service/config`);
 const {Command} = require(`commander`);
-const {getIsInteger} = require(`src/helpers`);
-const packageJsonFile = require(`../../package.json`);
-
-const generateMock = (numberOfLines) => {
-  console.log(`generate count: `, numberOfLines);
-};
+const {UNKNOWN_COMMAND} = require(`../literals/texts`);
+const {ARGUMENTS, DEFAULT_COUNT} = require(`./config`);
+const {EXIT_CODES} = require(`./config`);
+const {Cli} = require(`./cli`);
 
 const app = () => {
   const program = new Command();
@@ -30,39 +26,21 @@ const app = () => {
   } catch (err) {
     if (err.code === `commander.unknownOption`) {
       if (program.opts().generate) {
-        generateMock(1);
+        Cli[ARGUMENTS.GENERATE].run(DEFAULT_COUNT);
       } else {
-        console.log(`Неизвестная команда.`);
-        program.outputHelp();
+        console.log(UNKNOWN_COMMAND);
       }
     }
+
+    process.exit(EXIT_CODES.SUCCESS);
   }
 
-  const options = program.opts();
+  const firstArgument = Object.keys(program.opts())[0];
+  const generateCount = program.opts().generate;
 
-  if (options[ARGUMENTS.VERSION]) {
-    const version = packageJsonFile.version;
-    console.log(version);
+  if (typeof firstArgument !== `undefined` && Cli[firstArgument]) {
+    Cli[firstArgument].run(generateCount);
   }
-
-  if (options[ARGUMENTS.HELP]) {
-    console.log(HELP_OUTPUT);
-  }
-
-  if (options[ARGUMENTS.GENERATE]) {
-    const numberOfLines = options.generate;
-
-    if (getIsInteger(numberOfLines)) {
-      if (Number(numberOfLines) > 1000) {
-        console.log(COUNT_TOO_MUCH);
-
-        return;
-      }
-
-      generateMock(Number(numberOfLines));
-    }
-  }
-
 };
 
 app();

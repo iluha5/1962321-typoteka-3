@@ -5,9 +5,9 @@ const HELP_OUTPUT = ` Программа запускает http-сервер и
   `     Гайд:\n` +
   `     service.js <command>\n` +
   `     Команды:\n` +
-  `      --version: выводит номер версии\n` +
-  `      --help: печатает этот текст\n` +
-  `      --generate <count> формирует файл mocks.json`;
+  `      --version, -v: выводит номер версии\n` +
+  `      --help, -h: печатает этот текст\n` +
+  `      --generate <count>, -g <count>: формирует файл mocks.json`;
 
 const COUNT_TOO_MUCH = `Не больше 1000 публикаций`;
 const TITLES = [
@@ -57,6 +57,7 @@ const CATEGORIES = [
   `Программирование`,
   `Железо`,
 ];
+const UNKNOWN_COMMAND = `Неизвестная команда.`;
 
 module.exports = {
   HELP_OUTPUT,
@@ -64,4 +65,5 @@ module.exports = {
   TITLES,
   SENTENCES,
   CATEGORIES,
+  UNKNOWN_COMMAND,
 };

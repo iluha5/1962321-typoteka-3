@@ -1,7 +1,7 @@
 'use strict';
 
 const {TITLES, SENTENCES} = require(`../literals/texts`);
-const {NUMBER_OF_SENTENCES_IN_TITLE, MIN_SENTENCES_IN_FULL_TEXT} = require(`src/service/config`);
+const {NUMBER_OF_SENTENCES_IN_TITLE, MIN_SENTENCES_IN_FULL_TEXT} = require(`../service/config`);
 const {CATEGORIES} = require(`../literals/texts`);
 
 const getIsInteger = (value) => {
