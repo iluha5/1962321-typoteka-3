@@ -1,12 +1,20 @@
 'use strict';
 
-const {ARGUMENTS} = require(`../config`);
-const {DEFAULT_COUNT, MAX_COUNT} = require(`../config`);
+const fs = require(`fs`);
+const {DEFAULT_COUNT, MAX_COUNT, MOCK_FILE_NAME, ARGUMENTS} = require(`../config`);
 const {COUNT_TOO_MUCH} = require(`../../literals/texts`);
-const {getIsInteger} = require(`../../helpers`);
+const {getIsInteger, getGeneratedPublications} = require(`../../helpers`);
 
 const generateMock = (numberOfLines) => {
-  console.log(`generate count: `, numberOfLines);
+  const publications = JSON.stringify(getGeneratedPublications(numberOfLines));
+
+  fs.writeFile(MOCK_FILE_NAME, publications, (error) => {
+    if (error) {
+      return console.error(`Can't write data to file `, MOCK_FILE_NAME);
+    }
+
+    return console.info(`Operation success. File created.`);
+  });
 };
 
 const run = (numberOfLines) => {
