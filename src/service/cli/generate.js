@@ -2,7 +2,7 @@
 
 const fs = require(`fs`);
 const {DEFAULT_COUNT, MAX_COUNT, MOCK_FILE_NAME, ARGUMENTS} = require(`../config`);
-const {COUNT_TOO_MUCH} = require(`../../literals/texts`);
+const {COUNT_TOO_MUCH, DATA_WRITTEN_SUCCESS_MESSAGE, DATA_WRITTEN_ERROR_MESSAGE} = require(`../../literals/texts`);
 const {getIsInteger, getGeneratedPublications} = require(`../../helpers`);
 
 const generateMock = (numberOfLines) => {
@@ -10,17 +10,17 @@ const generateMock = (numberOfLines) => {
 
   fs.writeFile(MOCK_FILE_NAME, publications, (error) => {
     if (error) {
-      return console.error(`Can't write data to file `, MOCK_FILE_NAME);
+      return console.error(DATA_WRITTEN_ERROR_MESSAGE, MOCK_FILE_NAME);
     }
 
-    return console.info(`Operation success. File created.`);
+    return console.info(DATA_WRITTEN_SUCCESS_MESSAGE);
   });
 };
 
 const run = (numberOfLines) => {
   if (getIsInteger(numberOfLines)) {
     if (Number(numberOfLines) > MAX_COUNT) {
-      console.log(COUNT_TOO_MUCH);
+      console.error(COUNT_TOO_MUCH);
 
       return;
     }

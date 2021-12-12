@@ -4,6 +4,7 @@ const ARGUMENTS = {
   VERSION: `version`,
   HELP: `help`,
   GENERATE: `generate`,
+  GENERATE_COUNT: `count`,
 };
 const DEFAULT_COUNT = 1;
 const MAX_COUNT = 1000;
@@ -11,12 +12,16 @@ const MIN_SENTENCES_IN_ANNOUNCE = 1;
 const MAX_SENTENCES_IN_ANNOUNCE = 5;
 const MIN_SENTENCES_IN_FULL_TEXT = 1;
 const MIN_CATEGORIES_NUMBER = 1;
+const MIN_TITLES_NUMBER = 1;
 const EXIT_CODES = {
   SUCCESS: 0,
+  ERROR: 1,
 };
 const MOCK_FILE_NAME = `mock.json`;
-const DATE_FORMAT = `yyyy-mm-dd hh:MM:ss`;
+const DATE_FORMAT = `yyyy-MM-dd hh:mm:ss`;
 const MONTH_MOCK_COUNTER = 3;
+const START_GENERATED_HOUR = 0;
+const COMMANDER_UNKNOWN_ERROR_MESSAGE = `commander.unknownOption`;
 
 module.exports = {
   ARGUMENTS,
@@ -30,4 +35,7 @@ module.exports = {
   MOCK_FILE_NAME,
   DATE_FORMAT,
   MONTH_MOCK_COUNTER,
+  START_GENERATED_HOUR,
+  MIN_TITLES_NUMBER,
+  COMMANDER_UNKNOWN_ERROR_MESSAGE,
 };

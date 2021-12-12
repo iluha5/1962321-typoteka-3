@@ -58,6 +58,8 @@ const CATEGORIES = [
   `Железо`,
 ];
 const UNKNOWN_COMMAND = `Неизвестная команда.`;
+const DATA_WRITTEN_ERROR_MESSAGE = `Не могу записать данные в файл `;
+const DATA_WRITTEN_SUCCESS_MESSAGE = `Данные записаны в файл.`;
 
 module.exports = {
   HELP_OUTPUT,
@@ -66,4 +68,6 @@ module.exports = {
   SENTENCES,
   CATEGORIES,
   UNKNOWN_COMMAND,
+  DATA_WRITTEN_ERROR_MESSAGE,
+  DATA_WRITTEN_SUCCESS_MESSAGE
 };
