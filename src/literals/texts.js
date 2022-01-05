@@ -16,7 +16,9 @@ const WRONG_FILE_NAME = `Неверное имя файла.`;
 const FILE_READING_ERROR = `Не могу прочитать файл`;
 const DATA_WRITTEN_SUCCESS_MESSAGE = `Данные записаны в файл.`;
 const SERVER_STARTED = `Сервер запущен на порту`;
-const WRONG_PORT = `Порт введен некорректно`;
+const WRONG_PORT = `Порт введен некорректно.`;
+const SERVER_STARTING_ERROR = `Не могу запустить сервер.`;
+const PAGE_TITLE = `Типотека`;
 
 module.exports = {
   HELP_OUTPUT,
@@ -28,4 +30,6 @@ module.exports = {
   FILE_READING_ERROR,
   SERVER_STARTED,
   WRONG_PORT,
+  SERVER_STARTING_ERROR,
+  PAGE_TITLE,
 };
