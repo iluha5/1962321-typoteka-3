@@ -15,6 +15,8 @@ const DATA_WRITTEN_ERROR_MESSAGE = `Не могу записать данные 
 const WRONG_FILE_NAME = `Неверное имя файла.`;
 const FILE_READING_ERROR = `Не могу прочитать файл`;
 const DATA_WRITTEN_SUCCESS_MESSAGE = `Данные записаны в файл.`;
+const SERVER_STARTED = `Сервер запущен на порту`;
+const WRONG_PORT = `Порт введен некорректно`;
 
 module.exports = {
   HELP_OUTPUT,
@@ -24,4 +26,6 @@ module.exports = {
   DATA_WRITTEN_SUCCESS_MESSAGE,
   WRONG_FILE_NAME,
   FILE_READING_ERROR,
+  SERVER_STARTED,
+  WRONG_PORT,
 };
