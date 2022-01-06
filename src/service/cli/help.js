@@ -1,10 +1,11 @@
 'use strict';
 
+const chalk = require(`chalk`);
 const {ARGUMENTS} = require(`../config`);
 const {HELP_OUTPUT} = require(`../../literals/texts`);
 
 const run = () => {
-  console.log(HELP_OUTPUT);
+  console.log(chalk.gray(HELP_OUTPUT));
 };
 
 module.exports = {

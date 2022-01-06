@@ -1,33 +1,34 @@
 'use strict';
 
-const fs = require(`fs`);
+const fs = require(`fs`).promises;
+const chalk = require(`chalk`);
 const {DEFAULT_COUNT, MAX_COUNT, MOCK_FILE_NAME, ARGUMENTS} = require(`../config`);
 const {COUNT_TOO_MUCH, DATA_WRITTEN_SUCCESS_MESSAGE, DATA_WRITTEN_ERROR_MESSAGE} = require(`../../literals/texts`);
 const {getIsInteger, getGeneratedPublications} = require(`../../helpers`);
 
-const generateMock = (numberOfLines) => {
-  const publications = JSON.stringify(getGeneratedPublications(numberOfLines));
+const generateMock = async (numberOfLines) => {
+  try {
+    const publications = JSON.stringify(getGeneratedPublications(numberOfLines));
 
-  fs.writeFile(MOCK_FILE_NAME, publications, (error) => {
-    if (error) {
-      return console.error(DATA_WRITTEN_ERROR_MESSAGE, MOCK_FILE_NAME);
-    }
+    await fs.writeFile(MOCK_FILE_NAME, publications);
 
-    return console.info(DATA_WRITTEN_SUCCESS_MESSAGE);
-  });
+    console.info(chalk.green(DATA_WRITTEN_SUCCESS_MESSAGE));
+  } catch (error) {
+    console.error(chalk.red(DATA_WRITTEN_ERROR_MESSAGE, MOCK_FILE_NAME));
+  }
 };
 
-const run = (numberOfLines) => {
+const run = async (numberOfLines) => {
   if (getIsInteger(numberOfLines)) {
     if (Number(numberOfLines) > MAX_COUNT) {
-      console.error(COUNT_TOO_MUCH);
+      console.error(chalk.red(COUNT_TOO_MUCH));
 
       return;
     }
 
-    generateMock(Number(numberOfLines));
+    await generateMock(Number(numberOfLines));
   } else {
-    generateMock(DEFAULT_COUNT);
+    await generateMock(DEFAULT_COUNT);
   }
 };
 

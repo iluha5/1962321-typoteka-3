@@ -1,5 +1,6 @@
 'use strict';
 
+const chalk = require(`chalk`);
 const {Command} = require(`commander`);
 const {UNKNOWN_COMMAND} = require(`../literals/texts`);
 const {ARGUMENTS, DEFAULT_COUNT, COMMANDER_UNKNOWN_ERROR_MESSAGE} = require(`./config`);
@@ -31,7 +32,7 @@ const app = () => {
 
         isCommandError = true;
       } else {
-        console.log(UNKNOWN_COMMAND);
+        console.log(chalk.red(UNKNOWN_COMMAND));
 
         process.exit(EXIT_CODES.ERROR);
       }
@@ -45,7 +46,7 @@ const app = () => {
     if (typeof firstArgument !== `undefined` && Cli[firstArgument]) {
       Cli[firstArgument].run(generateCount);
     } else {
-      console.log(UNKNOWN_COMMAND);
+      console.log(chalk.red(UNKNOWN_COMMAND));
 
       process.exit(EXIT_CODES.ERROR);
     }
