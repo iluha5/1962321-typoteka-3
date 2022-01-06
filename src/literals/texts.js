@@ -7,6 +7,7 @@ const HELP_OUTPUT = ` Программа запускает http-сервер и
   `     Команды:\n` +
   `      --version, -v: выводит номер версии\n` +
   `      --help, -h: печатает этот текст\n` +
+  `      --server <port>, -s <port>: запуск web-сервера\n` +
   `      --generate <count>, -g <count>: формирует файл mocks.json`;
 
 const COUNT_TOO_MUCH = `Не больше 1000 публикаций`;
