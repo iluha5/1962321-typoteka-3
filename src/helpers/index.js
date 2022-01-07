@@ -3,7 +3,7 @@
 const fs = require(`fs`).promises;
 const chalk = require(`chalk`);
 const path = require(`path`);
-const {WRONG_FILE_NAME, FILE_READING_ERROR} = require(`../literals/texts`);
+const {WRONG_FILE_NAME, FILE_READING_ERROR, GET_PUBLICATIONS_ERROR} = require(`../literals/texts`);
 const {MIN_TITLES_NUMBER, MIN_CATEGORIES_NUMBER, MAX_SENTENCES_IN_ANNOUNCE, START_GENERATED_HOUR, MIN_SENTENCES_IN_ANNOUNCE, MIN_SENTENCES_IN_FULL_TEXT, DATE_FORMAT, MONTH_MOCK_COUNTER, MOCK_FILES_NAMES} = require(`../service/config`);
 const dateFormat = require(`date-format`);
 
@@ -28,8 +28,8 @@ const getFileData = async (filePath) => {
 
     return getCleanedFileData(fileData);
   } catch (error) {
-    console.error(chalk.red(`${FILE_READING_ERROR} ${filePath}: \n`), chalk.red(error));
-    return [];
+    console.error(chalk.red(`${FILE_READING_ERROR} ${filePath}`));
+    return Promise.reject(error);
   }
 };
 
@@ -94,9 +94,11 @@ const getGeneratedPublications = async (count) => {
   dateInPast.setMonth(dateInPast.getMonth() - MONTH_MOCK_COUNTER);
 
   try {
-    const titles = await getFileData(path.resolve(MOCK_FILES_NAMES.TITLES));
-    const sentences = await getFileData(path.resolve(MOCK_FILES_NAMES.SENTENCES));
-    const categories = await getFileData(path.resolve(MOCK_FILES_NAMES.CATEGORIES));
+    const [titles, sentences, categories] = await Promise.all([
+      getFileData(path.resolve(MOCK_FILES_NAMES.TITLES)),
+      getFileData(path.resolve(MOCK_FILES_NAMES.SENTENCES)),
+      getFileData(path.resolve(MOCK_FILES_NAMES.CATEGORIES)),
+    ]);
 
     return Array(count).fill({}).map(() => {
       const date = getRandomDate(dateInPast, dateNow, START_GENERATED_HOUR, maxGeneratedHour);
@@ -111,15 +113,9 @@ const getGeneratedPublications = async (count) => {
     });
 
   } catch (error) {
-    console.error(chalk.red(error));
+    console.error(chalk.red(GET_PUBLICATIONS_ERROR));
 
-    return {
-      title: ``,
-      announce: ``,
-      fullText: ``,
-      createDate: null,
-      category: [],
-    };
+    return Promise.reject(error);
   }
 };
 
