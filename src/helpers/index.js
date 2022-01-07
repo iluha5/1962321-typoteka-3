@@ -7,6 +7,16 @@ const {WRONG_FILE_NAME, FILE_READING_ERROR} = require(`../literals/texts`);
 const {MIN_TITLES_NUMBER, MIN_CATEGORIES_NUMBER, MAX_SENTENCES_IN_ANNOUNCE, START_GENERATED_HOUR, MIN_SENTENCES_IN_ANNOUNCE, MIN_SENTENCES_IN_FULL_TEXT, DATE_FORMAT, MONTH_MOCK_COUNTER, MOCK_FILES_NAMES} = require(`../service/config`);
 const dateFormat = require(`date-format`);
 
+const getCleanedFileData = (fileData) => {
+  let fileDataArray = fileData.trim().split(`\n`);
+
+  return fileDataArray.reduce(
+      (acc, line) =>
+        line.trim() !== `` ? [...acc, line.trim()] : acc,
+      []
+  );
+};
+
 const getFileData = async (filePath) => {
   if (typeof filePath !== `string`) {
     console.error(chalk.red(WRONG_FILE_NAME));
@@ -14,9 +24,9 @@ const getFileData = async (filePath) => {
   }
 
   try {
-    const fileDate = await fs.readFile(filePath, `utf8`);
+    const fileData = await fs.readFile(filePath, `utf8`);
 
-    return fileDate.trim().split(`\n`);
+    return getCleanedFileData(fileData);
   } catch (error) {
     console.error(chalk.red(`${FILE_READING_ERROR} ${filePath}: \n`), chalk.red(error));
     return [];
