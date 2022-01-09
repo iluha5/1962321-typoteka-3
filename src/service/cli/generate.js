@@ -8,13 +8,15 @@ const {getIsInteger, getGeneratedPublications} = require(`../../helpers`);
 
 const generateMock = async (numberOfLines) => {
   try {
-    const publications = JSON.stringify(getGeneratedPublications(numberOfLines));
+    const generatedMocks = await getGeneratedPublications(numberOfLines);
+    const publications = JSON.stringify(generatedMocks);
 
     await fs.writeFile(MOCK_FILE_NAME, publications);
 
     console.info(chalk.green(DATA_WRITTEN_SUCCESS_MESSAGE));
   } catch (error) {
-    console.error(chalk.red(DATA_WRITTEN_ERROR_MESSAGE, MOCK_FILE_NAME));
+    console.error(chalk.red(DATA_WRITTEN_ERROR_MESSAGE));
+    console.error(chalk.red(error));
   }
 };
 

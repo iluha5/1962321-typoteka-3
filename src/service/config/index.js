@@ -22,6 +22,11 @@ const DATE_FORMAT = `yyyy-MM-dd hh:mm:ss`;
 const MONTH_MOCK_COUNTER = 3;
 const START_GENERATED_HOUR = 0;
 const COMMANDER_UNKNOWN_ERROR_MESSAGE = `commander.unknownOption`;
+const MOCK_FILES_NAMES = {
+  SENTENCES: `data/sentences.txt`,
+  TITLES: `data/titles.txt`,
+  CATEGORIES: `data/categories.txt`,
+};
 
 module.exports = {
   ARGUMENTS,
@@ -38,4 +43,5 @@ module.exports = {
   START_GENERATED_HOUR,
   MIN_TITLES_NUMBER,
   COMMANDER_UNKNOWN_ERROR_MESSAGE,
+  MOCK_FILES_NAMES,
 };
