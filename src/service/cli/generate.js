@@ -15,7 +15,8 @@ const generateMock = async (numberOfLines) => {
 
     console.info(chalk.green(DATA_WRITTEN_SUCCESS_MESSAGE));
   } catch (error) {
-    console.error(chalk.red(DATA_WRITTEN_ERROR_MESSAGE, MOCK_FILE_NAME));
+    console.error(chalk.red(DATA_WRITTEN_ERROR_MESSAGE));
+    console.error(chalk.red(error));
   }
 };
 
