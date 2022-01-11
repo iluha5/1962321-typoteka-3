@@ -4,9 +4,12 @@ const ARGUMENTS = {
   VERSION: `version`,
   HELP: `help`,
   GENERATE: `generate`,
+  SERVER: `server`,
   GENERATE_COUNT: `count`,
+  PORT: `port`,
 };
 const DEFAULT_COUNT = 1;
+const DEFAULT_PORT = 3000;
 const MAX_COUNT = 1000;
 const MIN_SENTENCES_IN_ANNOUNCE = 1;
 const MAX_SENTENCES_IN_ANNOUNCE = 5;
@@ -44,4 +47,5 @@ module.exports = {
   MIN_TITLES_NUMBER,
   COMMANDER_UNKNOWN_ERROR_MESSAGE,
   MOCK_FILES_NAMES,
+  DEFAULT_PORT,
 };

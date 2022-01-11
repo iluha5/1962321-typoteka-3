@@ -14,7 +14,8 @@ const app = () => {
   program
     .option(`-v, --${ARGUMENTS.VERSION}`)
     .option(`-h, --${ARGUMENTS.HELP}`)
-    .option(`-g, --${ARGUMENTS.GENERATE} [${ARGUMENTS.GENERATE_COUNT}]`);
+    .option(`-g, --${ARGUMENTS.GENERATE} [${ARGUMENTS.GENERATE_COUNT}]`)
+    .option(`-s, --${ARGUMENTS.SERVER} [${ARGUMENTS.PORT}]`);
 
   program.exitOverride(); // throw instead of exit
   program
@@ -41,14 +42,29 @@ const app = () => {
 
   if (!isCommandError) {
     const firstArgument = Object.keys(program.opts())[0];
-    const generateCount = program.opts().generate;
 
-    if (typeof firstArgument !== `undefined` && Cli[firstArgument]) {
-      Cli[firstArgument].run(generateCount);
-    } else {
-      console.log(chalk.red(UNKNOWN_COMMAND));
+    switch (firstArgument) {
+      case ARGUMENTS.GENERATE:
+        const generateCount = program.opts()[ARGUMENTS.GENERATE];
 
-      process.exit(EXIT_CODES.ERROR);
+        Cli[ARGUMENTS.GENERATE].run(generateCount);
+
+        break;
+      case ARGUMENTS.VERSION:
+      case ARGUMENTS.HELP:
+        Cli[firstArgument].run();
+
+        break;
+      case ARGUMENTS.SERVER:
+        const serverPort = program.opts()[ARGUMENTS.SERVER];
+
+        Cli[ARGUMENTS.SERVER].run(serverPort);
+
+        break;
+      default:
+        console.log(chalk.red(UNKNOWN_COMMAND));
+
+        process.exit(EXIT_CODES.ERROR);
     }
   }
 };
