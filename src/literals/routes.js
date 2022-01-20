@@ -1,6 +1,6 @@
 'use strict';
 
-const routes = {
+const ROUTES = {
   root: `/`,
   register: `/register`,
   login: `/login`,
@@ -20,4 +20,4 @@ const routes = {
   categories: `/categories`
 };
 
-module.exports = routes;
+module.exports = ROUTES;
