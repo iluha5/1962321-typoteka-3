@@ -11,10 +11,11 @@ const app = express();
 app.set(`view engine`, `pug`);
 app.set(`views`, path.join(__dirname, `templates`));
 
+// TODO: doesn't work for nested routes
 app.use(express.static(path.join(__dirname, PUBLIC_DIR)));
 
-app.use(`/`, mainRouter);
-app.use(`/my`, myRouter);
 app.use(`/articles`, articlesRouter);
+app.use(`/my`, myRouter);
+app.use(`/`, mainRouter);
 
 app.listen(DEFAULT_EXPRESS_PORT);
