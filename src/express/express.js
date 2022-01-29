@@ -18,9 +18,20 @@ app.use(`/articles`, articlesRouter);
 app.use(`/my`, myRouter);
 app.use(`/`, mainRouter);
 
-app.get(`*`, (req, res) => {
-  res.status(statusCodes.NOT_FOUND).render(`404`);
-});
+app.use((req, res) =>
+  res
+    .status(statusCodes.NOT_FOUND)
+    .render(`404`, {
+      errorCode: statusCodes.NOT_FOUND
+    })
+);
 
+app.use((err, req, res, _) =>
+  res
+    .status(statusCodes.INTERNAL_SERVER_ERROR)
+    .render(`500`, {
+      errorCode: statusCodes.INTERNAL_SERVER_ERROR
+    })
+);
 
 app.listen(DEFAULT_EXPRESS_PORT);
