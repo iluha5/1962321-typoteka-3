@@ -31,6 +31,7 @@ const MOCK_FILES_NAMES = {
   TITLES: `data/titles.txt`,
   CATEGORIES: `data/categories.txt`,
 };
+const PUBLIC_DIR = `public`;
 
 module.exports = {
   ARGUMENTS,
@@ -50,4 +51,5 @@ module.exports = {
   MOCK_FILES_NAMES,
   DEFAULT_PORT,
   DEFAULT_EXPRESS_PORT,
+  PUBLIC_DIR,
 };
