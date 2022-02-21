@@ -17,6 +17,7 @@ const MAX_SENTENCES_IN_ANNOUNCE = 5;
 const MIN_SENTENCES_IN_FULL_TEXT = 1;
 const MIN_CATEGORIES_NUMBER = 1;
 const MIN_TITLES_NUMBER = 1;
+const MAX_COMMENTS = 4;
 const EXIT_CODES = {
   SUCCESS: 0,
   ERROR: 1,
@@ -30,8 +31,10 @@ const MOCK_FILES_NAMES = {
   SENTENCES: `data/sentences.txt`,
   TITLES: `data/titles.txt`,
   CATEGORIES: `data/categories.txt`,
+  COMMENTS: `data/comments.txt`,
 };
 const PUBLIC_DIR = `public`;
+const MAX_ID_LENGTH = 6;
 
 module.exports = {
   ARGUMENTS,
@@ -52,4 +55,6 @@ module.exports = {
   DEFAULT_PORT,
   DEFAULT_EXPRESS_PORT,
   PUBLIC_DIR,
+  MAX_ID_LENGTH,
+  MAX_COMMENTS,
 };

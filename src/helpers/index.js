@@ -1,10 +1,11 @@
 'use strict';
 
 const fs = require(`fs`).promises;
+const {nanoid} = require(`nanoid`);
 const chalk = require(`chalk`);
 const path = require(`path`);
 const {WRONG_FILE_NAME, FILE_READING_ERROR, GET_PUBLICATIONS_ERROR} = require(`../literals/texts`);
-const {MIN_TITLES_NUMBER, MIN_CATEGORIES_NUMBER, MAX_SENTENCES_IN_ANNOUNCE, START_GENERATED_HOUR, MIN_SENTENCES_IN_ANNOUNCE, MIN_SENTENCES_IN_FULL_TEXT, DATE_FORMAT, MONTH_MOCK_COUNTER, MOCK_FILES_NAMES} = require(`../service/config`);
+const {MIN_TITLES_NUMBER, MIN_CATEGORIES_NUMBER, MAX_SENTENCES_IN_ANNOUNCE, START_GENERATED_HOUR, MIN_SENTENCES_IN_ANNOUNCE, MIN_SENTENCES_IN_FULL_TEXT, DATE_FORMAT, MONTH_MOCK_COUNTER, MOCK_FILES_NAMES, MAX_ID_LENGTH, MAX_COMMENTS} = require(`../service/config`);
 const dateFormat = require(`date-format`);
 
 const getCleanedFileData = (fileData) => {
@@ -77,6 +78,15 @@ const getCategories = (numberOfCategories, mockCategories) => {
   return [...categories];
 };
 
+const getComments = (count, comments) => (
+  Array(count).fill({}).map(() => ({
+    id: nanoid(MAX_ID_LENGTH),
+    text: getShuffledArray(comments)
+      .slice(0, getRandomInt(1, 3))
+      .join(` `),
+  }))
+);
+
 const getRandomDate = (start, end, startHour, endHour) => {
   const date = new Date(+start + Math.random() * (end - start));
   const hour = startHour + Math.random() * (endHour - startHour) | 0;
@@ -94,21 +104,24 @@ const getGeneratedPublications = async (count) => {
   dateInPast.setMonth(dateInPast.getMonth() - MONTH_MOCK_COUNTER);
 
   try {
-    const [titles, sentences, categories] = await Promise.all([
+    const [titles, sentences, categories, comments] = await Promise.all([
       getFileData(path.resolve(MOCK_FILES_NAMES.TITLES)),
       getFileData(path.resolve(MOCK_FILES_NAMES.SENTENCES)),
       getFileData(path.resolve(MOCK_FILES_NAMES.CATEGORIES)),
+      getFileData(path.resolve(MOCK_FILES_NAMES.COMMENTS)),
     ]);
 
     return Array(count).fill({}).map(() => {
       const date = getRandomDate(dateInPast, dateNow, START_GENERATED_HOUR, maxGeneratedHour);
 
       return {
+        id: nanoid(MAX_ID_LENGTH),
         title: titles[getRandomInt(MIN_TITLES_NUMBER, titles.length - 1)],
         announce: getSentences(getRandomInt(MIN_SENTENCES_IN_ANNOUNCE, MAX_SENTENCES_IN_ANNOUNCE), sentences),
         fullText: getSentences(getRandomInt(MIN_SENTENCES_IN_FULL_TEXT, sentences.length - 1), sentences),
         createDate: dateFormat(DATE_FORMAT, date),
         category: getCategories(getRandomInt(MIN_CATEGORIES_NUMBER, categories.length - 1), categories),
+        comments: getComments(getRandomInt(1, MAX_COMMENTS), comments),
       };
     });
 
