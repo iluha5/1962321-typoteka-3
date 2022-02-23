@@ -5,8 +5,8 @@ const statusCodes = require(`http-status`);
 
 const route = new Router();
 
-const categoriesEndpoints = (app, service) => {
-  app.use(`/category`, route);
+const categoriesRouter = (app, service) => {
+  app.use(`/categories`, route);
 
   route.get(`/`, async (req, res) => {
     const categories = await service.findAll();
@@ -16,4 +16,4 @@ const categoriesEndpoints = (app, service) => {
   });
 };
 
-module.exports = categoriesEndpoints;
+module.exports = categoriesRouter;
