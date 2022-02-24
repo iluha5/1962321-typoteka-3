@@ -36,6 +36,10 @@ const MOCK_FILES_NAMES = {
 const PUBLIC_DIR = `public`;
 const MAX_ID_LENGTH = 6;
 const API_PREFIX = `/api`;
+const ENV = {
+  DEVELOPMENT: `development`,
+  PRODUCTION: `production`
+};
 
 module.exports = {
   ARGUMENTS,
@@ -59,4 +63,5 @@ module.exports = {
   MAX_ID_LENGTH,
   MAX_COMMENTS,
   API_PREFIX,
+  ENV
 };
