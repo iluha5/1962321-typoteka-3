@@ -1,26 +1,12 @@
 'use strict';
 
 const chalk = require(`chalk`);
-const fs = require(`fs`).promises;
 const express = require(`express`);
-const {ARGUMENTS, DEFAULT_PORT, MOCK_FILE_NAME} = require(`../config`);
+const statusCodes = require(`http-status`);
+const {ARGUMENTS, DEFAULT_PORT, API_PREFIX} = require(`../config`);
 const {SERVER_STARTED, WRONG_PORT, SERVER_STARTING_ERROR} = require(`../../literals/texts`);
 const {getIsInteger} = require(`../../helpers`);
-
-const sendPosts = async (req, res) => {
-  let mockFileContent = [];
-
-  try {
-    const mockFile = await fs.readFile(MOCK_FILE_NAME);
-
-    mockFileContent = JSON.parse(mockFile);
-
-  } catch (error) {
-    console.error(chalk.red(error));
-  }
-
-  res.send(mockFileContent);
-};
+const routes = require(`../api`);
 
 const run = (port) => {
   let currentPort = DEFAULT_PORT;
@@ -34,8 +20,11 @@ const run = (port) => {
   const app = express();
 
   app.use(express.json());
+  app.use(API_PREFIX, routes);
 
-  app.get(`/posts`, sendPosts);
+  app.use((req, res) => res
+    .status(statusCodes.NOT_FOUND)
+    .send(statusCodes.NOT_FOUND));
 
   app.listen(currentPort).on(`error`, (message) => {
     console.error(chalk.red(SERVER_STARTING_ERROR, message));
