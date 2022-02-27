@@ -34,6 +34,7 @@ const MOCK_FILES_NAMES = {
   COMMENTS: `data/comments.txt`,
 };
 const PUBLIC_DIR = `public`;
+const UPLOAD_DIR = `upload`;
 const MAX_ID_LENGTH = 6;
 const API_PREFIX = `/api`;
 const ENV = {
@@ -60,6 +61,7 @@ module.exports = {
   DEFAULT_PORT,
   DEFAULT_EXPRESS_PORT,
   PUBLIC_DIR,
+  UPLOAD_DIR,
   MAX_ID_LENGTH,
   MAX_COMMENTS,
   API_PREFIX,

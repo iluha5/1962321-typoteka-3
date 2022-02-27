@@ -36,7 +36,7 @@ class API {
     return await this._load(`/categories`);
   }
 
-  async createOffer(data) {
+  async createArticle(data) {
     return await this._load(`/articles`, {
       method: `POST`,
       data

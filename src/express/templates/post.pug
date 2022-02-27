@@ -4,6 +4,7 @@ block content
   main
     section
       .popup.popup--new-publication.popup--anti
+
         .new-publication
           form(action= (article.id ? ('/articles/edit/' + article.id) : '/articles/add'), method='POST')
             .new-publication__header
@@ -13,35 +14,35 @@ block content
                 .new-publication__date-form-division
                   .new-publication__date-block
                     label(for='new-publication-date', aria-label='Календарь')
-                    input#new-publication-date(type='text', name='date', placeholder= article.createDate, value= article.createDate, form='editArticle')
-              button.new-publication__button.button.button--colored(type='submit' form='editArticle') Опубликовать
+                    input#new-publication-date(type='text', name='date', placeholder= article.createDate, value= article.createDate)
+              button.new-publication__button.button.button--colored(type='submit') Опубликовать
             a.popup__button.button.button--popup-close(aria-label='Закрыть окно') Закрыть окно
+
             .new-publication__form.form
-              form(action= (article.id ? ('/articles/edit/' + article.id) : '/articles/add') method='POST' id='editArticle')
-                .form__wrapper.form__wrapper--intro
-                  .form__field
+              .form__wrapper.form__wrapper--intro
+                .form__field
+                  label
+                    input(type='text', name='title', placeholder='Заголовок', required, value= article.title)
+                .form__field.form__field--post-image
+                  label
+                    input#image-name-field(type='text', name='photo', placeholder='Фотография', readonly, value= (article.picture ? '/img/' + article.picture : ''))
+                  .form__image-loader.form__image-loader--publication
                     label
-                      input(type='text', name='title', placeholder='Заголовок', required, value= article.title)
-                  .form__field.form__field--post-image
-                    label
-                      input#image-name-field(type='text', name='photo', placeholder='Фотография', readonly, value= (article.picture ? '/img/' + article.picture : ''))
-                    .form__image-loader.form__image-loader--publication
-                      label
-                        input.visually-hidden(type='file', name='upload')
-                        | Обзор
-                    button.button.button--transparent Удалить
+                      input.visually-hidden(type='file', name='upload')
+                      | Обзор
+                  button.button.button--transparent Удалить
 
-                .new-publication__category-wrapper
-                  each category, index in categories
-                    .new-publication__checkbox.new-publication__checkbox--auto
-                      input(id= 'checkbox-' + index type='checkbox' name= 'checkbox-' + index value= category.item checked= category.checked)
-                      label(for= 'checkbox-' + index)= category.item
-                  a.new-publication__form-link.button.button--transparent(href='#') Добавить категорию
+              .new-publication__category-wrapper
+                each category, index in categories
+                  .new-publication__checkbox.new-publication__checkbox--auto
+                    input(id=`category-${index}` type='checkbox' name=`category` value= category.name checked= category.checked)
+                    label(for=`category-${index}`)= category.name
+                a.new-publication__form-link.button.button--transparent(href='#') Добавить категорию
 
-                .form__wrapper.form__wrapper--text
-                  .form__field.form__field--publication-text
-                    label
-                      textarea(rows='5', name='announcement', placeholder='Анонс публикации')= article.announce
-                  .form__field.form__field--publication-text
-                    label
-                      textarea(rows='10', name='full-text', placeholder='Полный текст публикации')= article.fullText
+              .form__wrapper.form__wrapper--text
+                .form__field.form__field--publication-text
+                  label
+                    textarea(rows='5', name='announcement', placeholder='Анонс публикации')= article.announce
+                .form__field.form__field--publication-text
+                  label
+                    textarea(rows='10', name='fullText', placeholder='Полный текст публикации')= article.fullText
