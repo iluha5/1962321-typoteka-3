@@ -6,7 +6,7 @@ const mainRouter = require(`./routes/main-routes`);
 const myRouter = require(`./routes/my-routes`);
 const articlesRouter = require(`./routes/articles-routes`);
 const {DEFAULT_EXPRESS_PORT, PUBLIC_DIR, UPLOAD_DIR} = require(`../service/config`);
-const {getLogger} = require(`../../service/lib/logger`);
+const {getLogger} = require(`../service/lib/logger`);
 
 const app = express();
 const logger = getLogger({name: `frontend-server`});
