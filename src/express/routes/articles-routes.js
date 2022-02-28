@@ -68,7 +68,46 @@ articlesRouter.post(`/add`, upload.single(`upload`), async (req, res) => {
 
     res.render(`post`, {article: req.body, categories});
   }
+});
 
+articlesRouter.post(`/edit/:id`, upload.single(`upload`), async (req, res) => {
+  const {body, file, params} = req;
+
+  const {title, announcement, fullText, date, category, photo} = body;
+  const editedArticle = {
+    id: params.id,
+    title,
+    announce: announcement,
+    fullText,
+    createDate: date,
+    category: ensureArray(category),
+    picture: file ? file.filename : photo || ``
+  };
+
+  try {
+    const editedArticleResponse = await api.updateArticle(editedArticle);
+
+    if (!editedArticleResponse) {
+      throw new Error(`The article is not changed, id: ${params.id}`);
+    }
+
+    logger.info(`Article was changed, id: ${editedArticleResponse.id}`);
+
+    res.redirect(`/my`);
+  } catch (error) {
+    const allCategories = await api.getCategories();
+
+    const categories = allCategories.map((item) => {
+      return {
+        name: item,
+        checked: (category || []).includes(item),
+      };
+    });
+
+    logger.error(`The article is not changed. ${error}`);
+
+    res.render(`post`, {article: req.body, categories});
+  }
 });
 
 articlesRouter.get(`/edit/:id`, async (req, res) => {
@@ -85,7 +124,7 @@ articlesRouter.get(`/edit/:id`, async (req, res) => {
 
     const categories = allCategories.map((item) => {
       return {
-        item,
+        name: item,
         checked: article.category.includes(item),
       };
     });

@@ -47,4 +47,10 @@ app.use((err, req, res, _) => {
   logger.error(`Internal server error ${res.statusCode}`);
 });
 
-app.listen(DEFAULT_EXPRESS_PORT);
+app.listen(DEFAULT_EXPRESS_PORT).on(`error`, (message) => {
+  logger.error(`Cannot start frontend-server.`, message);
+  process.exit(1);
+});
+
+logger.info(`Server starts on port: ${DEFAULT_EXPRESS_PORT}`);
+

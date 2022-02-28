@@ -42,6 +42,13 @@ class API {
       data
     });
   }
+
+  async updateArticle(data) {
+    return await this._load(`/articles/${data.id}`, {
+      method: `PUT`,
+      data
+    });
+  }
 }
 
 const defaultAPI = new API(defaultUrl, TIMEOUT);

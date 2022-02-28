@@ -18,8 +18,22 @@ mainRouter.get(`/register`, (req, res) => {
 mainRouter.get(`/login`, (req, res) => {
   res.render(`login`);
 });
-mainRouter.get(`/search`, (req, res) => {
-  res.render(`search`);
+mainRouter.get(`/search`, async (req, res) => {
+  const {query} = req.query;
+
+  try {
+    const articles = await api.search(query);
+
+    res.render(`search`, {
+      articles,
+      query
+    });
+  } catch (error) {
+    res.render(`search`, {
+      articles: [],
+      query
+    });
+  }
 });
 mainRouter.get(`/categories`, (req, res) => {
   res.render(`all-categories`);
