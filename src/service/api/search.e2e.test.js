@@ -90,6 +90,9 @@ search(app, new SearchService(mockArticles));
 describe(`API returns articles based on search query`, () => {
   let response;
 
+  const foundArticlesNumber = 1;
+  const foundArticleId = `ddqqMc`;
+
   beforeAll(async () => {
     response = await request(app)
       .get(`/search`)
@@ -100,9 +103,9 @@ describe(`API returns articles based on search query`, () => {
 
   test(`Status code 200`, () => expect(response.statusCode).toBe(statusCodes.OK));
 
-  test(`1 article found`, () => expect(response.body.length).toBe(1));
+  test(`One article found`, () => expect(response.body.length).toBe(foundArticlesNumber));
 
-  test(`Article has correct id`, () => expect(response.body[0].id).toBe(`ddqqMc`));
+  test(`Article has correct id`, () => expect(response.body[0].id).toBe(foundArticleId));
 
 });
 
