@@ -39,7 +39,8 @@ const mockArticles = [
     "createDate": `2022-01-11 00:33:03`,
     "category": [
       `Реки`,
-      `Разное`
+      `Компьютеры`,
+      `Животные`
     ],
     "comments": [
       {
@@ -61,6 +62,7 @@ category(app, new CategoryService(mockArticles));
 
 describe(`API returns category list`, () => {
   let response;
+  const expectedCategories = [`Без рамки`, `Кино`, `Реки`, `Разное`, `Спорт`, `Компьютеры`, `Животные`];
 
   beforeAll(async () => {
     response = await request(app)
@@ -69,10 +71,10 @@ describe(`API returns category list`, () => {
 
   test(`Status code 200`, () => expect(response.statusCode).toBe(statusCodes.OK));
 
-  test(`Returns list of 5 categories`, () => expect(response.body.length).toBe(5));
+  test(`Returns list of all categories`, () => expect(response.body.length).toBe(expectedCategories.length));
 
-  test(`Category names are Без рамки, Кино, Реки, Разное, Спорт`, () => expect(response.body).toEqual(
-      expect.arrayContaining([`Без рамки`, `Кино`, `Реки`, `Разное`, `Спорт`])
+  test(`Category should includes categories from all articles`, () => expect(response.body).toEqual(
+      expect.arrayContaining(expectedCategories)
   )
   );
 });

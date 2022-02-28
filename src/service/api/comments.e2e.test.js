@@ -96,38 +96,43 @@ const createAPI = () => {
 
 describe(`API returns existent comments`, () => {
   let response;
+  const articleId = `oHNLn2`;
+  const targetArticle = mockArticles.find((item) => item.id === articleId);
 
   beforeAll(async () => {
     const app = createAPI();
 
     response = await request(app)
-      .get(`/articles/oHNLn2/comments`);
+      .get(`/articles/${articleId}/comments`);
   });
 
   test(`Status code 200`, () => expect(response.statusCode).toBe(statusCodes.OK));
 
-  test(`Should be 2 comments for the article with id = oHNLn2`, () => expect(response.body.length).toBe(2));
+  test(`Should be right comments amount for the article`, () => expect(response.body.length).toBe(targetArticle.comments.length));
 
-  test(`The comment with id = ljapTY should be in the response`, () => expect(response.body[0].id).toBe(`ljapTY`));
+  test(`The comment should be in the response`, () => expect(response.body[0].id).toBe(targetArticle.comments[0].id));
 });
 
 describe(`API removes a comment`, () => {
   const app = createAPI();
 
   let response;
+  const articleId = `oHNLn2`;
+  const commentId = `ljapTY`;
+  const targetArticle = mockArticles.find((item) => item.id === articleId);
 
   beforeAll(async () => {
     response = await request(app)
-      .delete(`/articles/oHNLn2/comments/ljapTY`);
+      .delete(`/articles/${articleId}/comments/${commentId}`);
   });
 
   test(`Status code 200`, () => expect(response.statusCode).toBe(statusCodes.OK));
 
-  test(`Returns deleted comment`, () => expect(response.body.id).toBe(`ljapTY`));
+  test(`Returns deleted comment`, () => expect(response.body.id).toBe(commentId));
 
-  test(`Comments count is 1 now`, () => request(app)
-    .get(`/articles/oHNLn2/comments`)
-    .expect((res) => expect(res.body.length).toBe(1))
+  test(`Comments count is reduced by one`, () => request(app)
+    .get(`/articles/${articleId}/comments`)
+    .expect((res) => expect(res.body.length).toBe(targetArticle.comments.length - 1))
   );
 });
 
@@ -135,6 +140,7 @@ describe(`API creates a comment if data is valid`, () => {
   const newComment = {
     "text": `Очень странные дела`,
   };
+  const articleId = `oHNLn2`;
 
   const app = createAPI();
 
@@ -142,7 +148,7 @@ describe(`API creates a comment if data is valid`, () => {
 
   beforeAll(async () => {
     response = await request(app)
-      .post(`/articles/oHNLn2/comments`)
+      .post(`/articles/${articleId}/comments`)
       .send(newComment);
   });
 
@@ -155,8 +161,10 @@ describe(`API refuses to create and delete comments`, () => {
   test(`API refuses to create a comment to non-existent article and returns status code 404`, () => {
     const app = createAPI();
 
+    const nonExistentArticleId = `NOEXST`;
+
     return request(app)
-      .post(`/articles/NOEXST/comments`)
+      .post(`/articles/${nonExistentArticleId}/comments`)
       .send({
         text: `Неважно`
       })
@@ -166,8 +174,11 @@ describe(`API refuses to create and delete comments`, () => {
   test(`API refuses to delete non-existent comment`, () => {
     const app = createAPI();
 
+    const nonExistentCommentId = `NOEXST`;
+    const articleId = `GxdTgz`;
+
     return request(app)
-      .delete(`/articles/GxdTgz/comments/NOEXST`)
+      .delete(`/articles/${articleId}/comments/${nonExistentCommentId}`)
       .expect(statusCodes.NOT_FOUND);
   });
 });
