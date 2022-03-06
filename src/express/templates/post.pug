@@ -6,7 +6,7 @@ block content
       .popup.popup--new-publication.popup--anti
 
         .new-publication
-          form(action= (article.id ? ('/articles/edit/' + article.id) : '/articles/add'), method='POST')
+          form(action= (article.id ? ('/articles/edit/' + article.id) : '/articles/add'), method='POST', enctype="multipart/form-data")
             .new-publication__header
               h1= article.id ? 'Редактирование публикации' : 'Новая публикация'
               .new-publication__date-form
