@@ -7,6 +7,7 @@ const {upload} = require(`../multer`);
 const {ensureArray} = require(`../../helpers`);
 const {getLogger} = require(`../../service/lib/logger`);
 
+const MAX_FILE_SIZE = 1024 * 1024; // 1Mb
 const api = getAPI();
 const articlesRouter = new Router();
 const logger = getLogger({name: `frontend-server`});
@@ -32,8 +33,7 @@ articlesRouter.get(`/add`, async (req, res) => {
 });
 
 articlesRouter.post(`/add`, upload.single(`upload`), async (req, res) => {
-  const {body, file} = req;
-
+  const {body, file, fileError} = req;
   const {title, announcement, fullText, date, category} = body;
   const newArticle = {
     title,
@@ -45,6 +45,14 @@ articlesRouter.post(`/add`, upload.single(`upload`), async (req, res) => {
   };
 
   try {
+    if (fileError) {
+      throw new Error(fileError);
+    }
+
+    if (file.size > MAX_FILE_SIZE) {
+      throw new Error(`The file size is too large`);
+    }
+
     const newArticleResponse = await api.createArticle(newArticle);
 
     if (!newArticleResponse) {
