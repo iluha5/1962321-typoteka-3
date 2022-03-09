@@ -132,10 +132,13 @@ const getGeneratedPublications = async (count) => {
   }
 };
 
+const ensureArray = (value) => Array.isArray(value) ? value : [value];
+
 module.exports = {
   getIsInteger,
   getRandomInt,
   getShuffledArray,
   getGeneratedPublications,
   getFileData,
+  ensureArray,
 };
